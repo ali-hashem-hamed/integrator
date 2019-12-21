@@ -11,8 +11,6 @@ import ca.uhn.hl7v2.llp.LLPException;
 import ca.uhn.hl7v2.llp.MinLowerLayerProtocol;
 import ca.uhn.hl7v2.model.AbstractMessage;
 import ca.uhn.hl7v2.model.Message;
-import ca.uhn.hl7v2.model.v231.message.ADT_A04;
-import ca.uhn.hl7v2.model.v231.segment.MSH;
 import ca.uhn.hl7v2.model.v25.message.ORM_O01;
 import ca.uhn.hl7v2.parser.Parser;
 import ca.uhn.hl7v2.parser.PipeParser;

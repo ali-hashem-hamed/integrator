@@ -58,8 +58,11 @@ public class WorklistScheduled {
 
             Message createRadiologyOrderMessage1 = ORMO01MessageBuilder.createRadiologyOrderMessage(ormMessageContent);
             System.out.println(createRadiologyOrderMessage1.toString());
-            HL7Utils.sendHL7Message(HL7Host, Integer.parseInt(HL7Port), createRadiologyOrderMessage1);
+            boolean sendHL7Message = HL7Utils.sendHL7Message(HL7Host, Integer.parseInt(HL7Port), createRadiologyOrderMessage1);
+            if(sendHL7Message)
+            {
             worklistDao.setHandled(worklist.getId());
+            }
         }
     }
 

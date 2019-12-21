@@ -19,10 +19,13 @@ import ca.uhn.hl7v2.model.*;
 import ca.uhn.hl7v2.model.v25.message.*;
 import ca.uhn.hl7v2.model.v25.segment.*;
 import ca.uhn.hl7v2.parser.PipeParser;
+import ca.uhn.hl7v2.util.idgenerator.UUIDGenerator;
 import java.io.IOException;
 
 import java.text.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.dcm4che3.data.Tag;
 import org.dcm4che3.util.UIDUtils;
 
@@ -32,8 +35,9 @@ public class HL7Utils {
         return new SimpleDateFormat("yyyyMMddHHmmss");
     }
 
-    public static void sendHL7Message(String remoteHost, int remotePort, Message msg) {
+    public static boolean sendHL7Message(String remoteHost, int remotePort, Message msg) {
         Connection newClientConnection = null;
+        boolean applicationAccept=false;
         try {
             ConnectionHub connectionHub = ConnectionHub.getInstance();
             newClientConnection = connectionHub.attach(remoteHost, remotePort, new PipeParser(), MinLowerLayerProtocol.class);
@@ -45,6 +49,7 @@ public class HL7Utils {
             PipeParser pipeParser = new PipeParser();
             String responseString = pipeParser.encode(response);
             System.out.println("Received response:\n" + responseString);
+            applicationAccept=responseString.contains("MSA|AA|");
         } catch (Exception ex) {
             System.out.println("catch #############");
             ex.printStackTrace();
@@ -53,6 +58,7 @@ public class HL7Utils {
                 newClientConnection.close();
             }
         }
+        return applicationAccept;
     }
 
     public static MSH populateMessageHeader(MSH msh, Date dateTime, String messageType, String triggerEvent, String sendingFacility) throws DataTypeException {

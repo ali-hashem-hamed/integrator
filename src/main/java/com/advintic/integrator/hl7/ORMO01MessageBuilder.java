@@ -8,6 +8,7 @@ import ca.uhn.hl7v2.model.v25.group.ORM_O01_PATIENT;
 import ca.uhn.hl7v2.model.v25.message.ADT_A01;
 import ca.uhn.hl7v2.model.v25.message.ORM_O01;
 import ca.uhn.hl7v2.model.v25.segment.EVN;
+import ca.uhn.hl7v2.model.v25.segment.IPC;
 import ca.uhn.hl7v2.model.v25.segment.MSH;
 import ca.uhn.hl7v2.model.v25.segment.OBR;
 import ca.uhn.hl7v2.model.v25.segment.ORC;
@@ -33,13 +34,13 @@ public class ORMO01MessageBuilder {
         // handle the MSH component
         MSH msh = message.getMSH();
         msh.getMessageControlID().setValue("MESSAGE_CONTROL_ID_1");
-        HL7Utils.populateMessageHeader(msh, new Date(), "ORM", "O01", "ADV MSH");
+        HL7Utils.populateMessageHeader(msh, messageContent.getCreationDateTime(), "ORM", "O01", "ADV MSH");
 
         // handle the patient PID component
         ORM_O01_PATIENT patient = message.getPATIENT();
         PID pid = patient.getPID();
         pid.getPatientIdentifierList(0).getIDNumber().setValue(messageContent.getPatientId());
-        pid.getPatientName(0).getFamilyName().getSurname().setValue("PatientFNAME");
+        pid.getPatientName(0).getFamilyName().getSurname().setValue("");//PatientFNAME
         pid.getPatientName(0).getGivenName().setValue(messageContent.getPatientFullName());
         pid.getDateTimeOfBirth().getTime().setValue(HL7Utils.getHl7DateFormat().format(messageContent.getPatientBirthdate()));
         pid.getAdministrativeSex().setValue(messageContent.getPatientSex());
@@ -58,12 +59,13 @@ public class ORMO01MessageBuilder {
 //        orc.getFillerOrderNumber().getEntityIdentifier().setValue("FillerOrderNumber54512");
         orc.getEnteredBy(0).getGivenName().setValue("EnteredByADV");
         orc.getOrderControl().setValue("NW");
+        orc.getQuantityTiming(0).getStartDateTime().getTime().setValue(HL7Utils.getHl7DateFormat().format(messageContent.getPatientBirthdate()));
 
         // handle OBR component
         OBR obr = message.getORDER().getORDER_DETAIL().getOBR();
         obr.getPlacerField1().setValue(messageContent.getAccessionNumber());
         obr.getDiagnosticServSectID().setValue(messageContent.getModalityName());
-        obr.getPlacerField2().setValue(messageContent.getAccessionNumber());////////////ReqProcId
+        obr.getPlacerField2().setValue(messageContent.getAccessionNumber());////////////ReqProcId       
 //        obr.getFillerField1().setValue("ScheduledProcedureStepID");
 //        obr.getSpecimenSource().getBodySite().getAlternateIdentifier().setValue("getAlternateIdentifier");
 //        obr.getSpecimenSource().getBodySite().getAlternateText().setValue("getAlternateText");
@@ -72,8 +74,6 @@ public class ORMO01MessageBuilder {
 //        obr.getObr15_SpecimenSource().getSiteModifier().getText().setValue("getSiteModifier");
         // note that we are just sending modality here, not the device location
 //        obr.getQuantityTiming(0).getPriority().setValue("STAT");
-        obr.getScheduledDateTime().getTime().setValue(HL7Utils.getHl7DateFormat().format(new Date()));
-
         // break the reason for study up by lines
 //        obr.getReasonForStudy(0).getText().setValue("Creating a test order programmatically");
 //        obr.getReasonForStudy(1).getText().setValue("This is a test order. Please ignore this order.");
@@ -81,7 +81,6 @@ public class ORMO01MessageBuilder {
         message.addNonstandardSegment("ZDS");
         Terser t = new Terser(message);
         t.set("ZDS-1-1", HL7Utils.generateSUID());
-
         return message;
     }
 

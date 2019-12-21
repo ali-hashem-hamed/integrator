@@ -25,7 +25,7 @@ public class Worklist  implements java.io.Serializable {
 
 
      private Integer id;
-     private int creationDateTime;
+     private Date creationDateTime;
      private String patientId;
      private Date patientBirthdate;
      private String patientFullName;
@@ -42,7 +42,7 @@ public class Worklist  implements java.io.Serializable {
     }
 
 	
-    public Worklist(int creationDateTime, String patientId, Date patientBirthdate, String patientFullName, String accessionNumber, String worklistStatus, int handled) {
+    public Worklist(Date creationDateTime, String patientId, Date patientBirthdate, String patientFullName, String accessionNumber, String worklistStatus, int handled) {
         this.creationDateTime = creationDateTime;
         this.patientId = patientId;
         this.patientBirthdate = patientBirthdate;
@@ -51,7 +51,7 @@ public class Worklist  implements java.io.Serializable {
         this.worklistStatus = worklistStatus;
         this.handled = handled;
     }
-    public Worklist(int creationDateTime, String patientId, Date patientBirthdate, String patientFullName, String patientNationalId, String patientSex, String accessionNumber, String examName, String modalityName, String worklistStatus, int handled, String examCompleted) {
+    public Worklist(Date creationDateTime, String patientId, Date patientBirthdate, String patientFullName, String patientNationalId, String patientSex, String accessionNumber, String examName, String modalityName, String worklistStatus, int handled, String examCompleted) {
        this.creationDateTime = creationDateTime;
        this.patientId = patientId;
        this.patientBirthdate = patientBirthdate;
@@ -78,13 +78,13 @@ public class Worklist  implements java.io.Serializable {
         this.id = id;
     }
 
-    
+     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="creation_date_time", nullable=false)
-    public int getCreationDateTime() {
+    public Date getCreationDateTime() {
         return this.creationDateTime;
     }
     
-    public void setCreationDateTime(int creationDateTime) {
+    public void setCreationDateTime(Date creationDateTime) {
         this.creationDateTime = creationDateTime;
     }
 

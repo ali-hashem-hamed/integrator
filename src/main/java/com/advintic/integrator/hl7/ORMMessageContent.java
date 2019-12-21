@@ -14,7 +14,7 @@ import java.util.Date;
  * @author Mahmoud
  */
 public class ORMMessageContent {
-     private int creationDateTime;
+     private Date creationDateTime;
      private String patientId;
      private Date patientBirthdate;
      private String patientFullName;
@@ -29,7 +29,7 @@ public class ORMMessageContent {
     public ORMMessageContent() {
     }
 
-    public ORMMessageContent(int creationDateTime, String patientId, Date patientBirthdate, String patientFullName, String patientNationalId, String patientSex, String accessionNumber, String examName, String modalityName, String worklistStatus, String examCompleted) {
+    public ORMMessageContent(Date creationDateTime, String patientId, Date patientBirthdate, String patientFullName, String patientNationalId, String patientSex, String accessionNumber, String examName, String modalityName, String worklistStatus, String examCompleted) {
         this.creationDateTime = creationDateTime;
         this.patientId = patientId;
         this.patientBirthdate = patientBirthdate;
@@ -43,11 +43,11 @@ public class ORMMessageContent {
         this.examCompleted = examCompleted;
     }
 
-    public int getCreationDateTime() {
+    public Date getCreationDateTime() {
         return creationDateTime;
     }
 
-    public void setCreationDateTime(int creationDateTime) {
+    public void setCreationDateTime(Date creationDateTime) {
         this.creationDateTime = creationDateTime;
     }
 
