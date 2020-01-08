@@ -18,7 +18,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name="worklist"
-    ,catalog="his_integ"
+
     , uniqueConstraints = @UniqueConstraint(columnNames="accession_number") 
 )
 public class Worklist  implements java.io.Serializable {
