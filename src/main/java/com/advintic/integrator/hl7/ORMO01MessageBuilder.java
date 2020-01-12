@@ -59,7 +59,7 @@ public class ORMO01MessageBuilder {
 //        orc.getFillerOrderNumber().getEntityIdentifier().setValue("FillerOrderNumber54512");
         orc.getEnteredBy(0).getGivenName().setValue("EnteredByADV");
         orc.getOrderControl().setValue("NW");
-        orc.getQuantityTiming(0).getStartDateTime().getTime().setValue(HL7Utils.getHl7DateFormat().format(messageContent.getPatientBirthdate()));
+        orc.getQuantityTiming(0).getStartDateTime().getTime().setValue(HL7Utils.getHl7DateFormat().format(messageContent.getCreationDateTime()));
 
         // handle OBR component
         OBR obr = message.getORDER().getORDER_DETAIL().getOBR();
