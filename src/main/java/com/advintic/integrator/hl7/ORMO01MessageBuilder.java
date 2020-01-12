@@ -40,8 +40,8 @@ public class ORMO01MessageBuilder {
         ORM_O01_PATIENT patient = message.getPATIENT();
         PID pid = patient.getPID();
         pid.getPatientIdentifierList(0).getIDNumber().setValue(messageContent.getPatientId());
-        pid.getPatientName(0).getFamilyName().getSurname().setValue("");//PatientFNAME
-        pid.getPatientName(0).getGivenName().setValue(messageContent.getPatientFullName());
+        pid.getPatientName(0).getFamilyName().getSurname().setValue(messageContent.getPatientFullName());//PatientFNAME
+       // pid.getPatientName(0).getGivenName().setValue(messageContent.getPatientFullName());
         pid.getDateTimeOfBirth().getTime().setValue(HL7Utils.getHl7DateFormat().format(messageContent.getPatientBirthdate()));
         pid.getAdministrativeSex().setValue(messageContent.getPatientSex());
 

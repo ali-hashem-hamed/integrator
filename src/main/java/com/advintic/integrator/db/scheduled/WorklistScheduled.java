@@ -8,6 +8,7 @@ package com.advintic.integrator.db.scheduled;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.llp.LLPException;
 import ca.uhn.hl7v2.model.Message;
+
 import com.advintic.integrator.db.dao.WorklistDao;
 import com.advintic.integrator.db.model.Worklist;
 import com.advintic.integrator.hl7.HL7Utils;
@@ -16,7 +17,6 @@ import com.advintic.integrator.hl7.ORMO01MessageBuilder;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,6 @@ import org.springframework.stereotype.Component;
 @PropertySource("file:application.properties")
 
 public class WorklistScheduled {
-
     @Value("${hl7.host}")
     String HL7Host;
     @Value("${hl7.port}")
@@ -57,7 +56,8 @@ public class WorklistScheduled {
                     worklist.getWorklistStatus(), worklist.getExamCompleted());
 
             Message createRadiologyOrderMessage1 = ORMO01MessageBuilder.createRadiologyOrderMessage(ormMessageContent);
-            System.out.println(createRadiologyOrderMessage1.toString());
+
+
             boolean sendHL7Message = HL7Utils.sendHL7Message(HL7Host, Integer.parseInt(HL7Port), createRadiologyOrderMessage1);
             if(sendHL7Message)
             {
