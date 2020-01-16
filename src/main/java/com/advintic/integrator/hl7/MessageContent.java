@@ -13,7 +13,7 @@ import java.util.Date;
  *
  * @author Mahmoud
  */
-public class ORMMessageContent {
+public class MessageContent {
      private Date creationDateTime;
      private String patientId;
      private Date patientBirthdate;
@@ -26,10 +26,10 @@ public class ORMMessageContent {
      private String worklistStatus;
      private String examCompleted;
 
-    public ORMMessageContent() {
+    public MessageContent() {
     }
 
-    public ORMMessageContent(Date creationDateTime, String patientId, Date patientBirthdate, String patientFullName, String patientNationalId, String patientSex, String accessionNumber, String examName, String modalityName, String worklistStatus, String examCompleted) {
+    public MessageContent(Date creationDateTime, String patientId, Date patientBirthdate, String patientFullName, String patientNationalId, String patientSex, String accessionNumber, String examName, String modalityName, String worklistStatus, String examCompleted) {
         this.creationDateTime = creationDateTime;
         this.patientId = patientId;
         this.patientBirthdate = patientBirthdate;

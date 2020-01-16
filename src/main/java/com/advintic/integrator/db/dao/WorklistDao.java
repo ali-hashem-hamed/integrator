@@ -25,17 +25,24 @@ public interface WorklistDao extends CrudRepository<Worklist, Integer> {
     boolean exists(int worklistId);
 
     Worklist findById(int worklistId);
-
+    Worklist findByAccessionNumber(String accessionNumber);
+    
      List<Worklist> findByHandled(int handled);
+    
      
     @Modifying
-    @Query("UPDATE Worklist w SET w.handled = 1 "
+    @Query("UPDATE Worklist w SET w.handled = :handled "
             + " WHERE w.id = :worklistId")
-    public Integer setHandled(@Param("worklistId") Integer worklistId);
+    public Integer setHandled(@Param("worklistId") Integer worklistId,@Param("handled") int handled);
 
     @Modifying
     @Query("UPDATE Worklist w SET w.worklistStatus = :worklistStatus "
             + " WHERE w.id = :worklistId")
     public Integer setWorklistStatus(@Param("worklistId") Integer worklistId, @Param("worklistStatus") String worklistStatus);
 
+    
+     @Modifying
+    @Query("UPDATE Worklist w SET w.examCompleted = 1 "
+            + " WHERE w.id = :worklistId")
+    public Integer setExamCompleted(@Param("worklistId") Integer worklistId);
 }

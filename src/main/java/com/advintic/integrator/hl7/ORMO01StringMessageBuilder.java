@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 public class ORMO01StringMessageBuilder {
 
-    public static String createRadiologyOrderMessage(ORMMessageContent message) throws HL7Exception, IOException, DicomException {
+    public static String createRadiologyOrderMessage(MessageContent message) throws HL7Exception, IOException, DicomException {
         String creationDate = HL7Utils.getHl7DateFormat().format(message.getCreationDateTime());
         String patientBirthdate = HL7Utils.getHl7DateFormat().format(message.getPatientBirthdate());
         String strMessage = "MSH|^~\\&|OPTIRIS|OPTIMALSYSTEMS|ISITE|CENTERNAME|" + creationDate + "||ORM^O01|1576680435834|P|2.3\n"

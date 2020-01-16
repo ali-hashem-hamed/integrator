@@ -12,8 +12,8 @@ import ca.uhn.hl7v2.model.Message;
 import com.advintic.integrator.db.dao.WorklistDao;
 import com.advintic.integrator.db.model.Worklist;
 import com.advintic.integrator.hl7.HL7Utils;
-import com.advintic.integrator.hl7.ORMMessageContent;
-import com.advintic.integrator.hl7.ORMO01MessageBuilder;
+import com.advintic.integrator.hl7.MessageContent;
+import com.advintic.integrator.hl7.MessageBuilder;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -32,6 +32,11 @@ import org.springframework.stereotype.Component;
 @PropertySource("file:application.properties")
 
 public class WorklistScheduled {
+
+    public static final String NEW_STATUS = "N";
+    public static final String UPDATE_STATUS = "U";
+    public static final String DELETE_STATUS = "D";
+
     @Value("${hl7.host}")
     String HL7Host;
     @Value("${hl7.port}")
@@ -50,18 +55,42 @@ public class WorklistScheduled {
         for (Worklist worklist : unhandledWorklist) {
             System.out.println("worklist " + worklist.getId());
 
-            ORMMessageContent ormMessageContent = new ORMMessageContent(worklist.getCreationDateTime(), worklist.getPatientId(),
+            MessageContent messageContent = new MessageContent(worklist.getCreationDateTime(), worklist.getPatientId(),
                     worklist.getPatientBirthdate(), worklist.getPatientFullName(), worklist.getPatientNationalId(),
                     worklist.getPatientSex(), worklist.getAccessionNumber(), worklist.getExamName(), worklist.getModalityName(),
                     worklist.getWorklistStatus(), worklist.getExamCompleted());
 
-            Message createRadiologyOrderMessage1 = ORMO01MessageBuilder.createRadiologyOrderMessage(ormMessageContent);
+            Message message = null;
 
+            switch (worklist.getWorklistStatus().toUpperCase()) {
+                case NEW_STATUS:
+                    if (worklist.getExamCompleted().equalsIgnoreCase("1")) {
+                        System.out.println("Exam Completed Status");
+                        message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.COMPLETED_WORKLIST);
+                    } else {
+                        System.out.println("New Status");
+                        message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.SCHEDULED_WORKLIST);
+                    }
+                    break;
+                case UPDATE_STATUS:
+                    System.out.println("Update Status");
 
-            boolean sendHL7Message = HL7Utils.sendHL7Message(HL7Host, Integer.parseInt(HL7Port), createRadiologyOrderMessage1);
-            if(sendHL7Message)
-            {
-            worklistDao.setHandled(worklist.getId());
+                    message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.CANCEL_WORKLIST);
+                    HL7Utils.sendHL7Message(HL7Host, Integer.parseInt(HL7Port), message);
+
+                    message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.SCHEDULED_WORKLIST);
+                    break;
+                case DELETE_STATUS:
+                    System.out.println("Delete Status");
+                    message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.CANCEL_WORKLIST);
+                    break;
+                default:
+                    System.out.println("no match");
+            }
+
+            boolean sendHL7Message = HL7Utils.sendHL7Message(HL7Host, Integer.parseInt(HL7Port), message);
+            if (sendHL7Message) {
+                worklistDao.setHandled(worklist.getId(), 1);
             }
         }
     }
