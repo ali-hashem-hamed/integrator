@@ -39,6 +39,7 @@ public class MessageBuilder {
             MSH msh = message.getMSH();
             msh.getMessageControlID().setValue("MESSAGE_CONTROL_ID_1");
             HL7Utils.populateMessageHeader(msh, messageContent.getCreationDateTime(), "ORM", "O01", "ADV MSH");
+            message.getNTE().getComment(0).setValue(messageContent.getComments());
 
             // handle the patient PID component
             ORM_O01_PATIENT patient = message.getPATIENT();
@@ -51,22 +52,38 @@ public class MessageBuilder {
 
             // handle patient visit component
             PV1 pv1 = message.getPATIENT().getPATIENT_VISIT().getPV1();
+            patient.getAL1().getAl13_AllergenCodeMnemonicDescription().getText().setValue(messageContent.getContrastAllergy());
+            System.out.println("messageContent.getPatientPregnant() :: " + messageContent.getComments());
+
+            pv1.getPv115_AmbulatoryStatus(0).setValue(messageContent.getPatientPregnant()==1?"B6":"");
+                    //.setValue("000"+messageContent.getPatientPregnant());
+            pv1.getPv18_ReferringDoctor(0).getIDNumber().setValue("1");
+            pv1.getReferringDoctor(0).getXcn3_GivenName().setValue(messageContent.getPhysician());
+
 
             // handle ORC component
             ORC orc = message.getORDER().getORC();
             orc.getEnteredBy(0).getGivenName().setValue("EnteredByADV");
             orc.getOrderControl().setValue(status);
+            orc.getOrc12_OrderingProvider(0).getFamilyName().getSurname().setValue(messageContent.getPhysician());
+
+
 
             orc.getQuantityTiming(0).getStartDateTime().getTime().setValue(HL7Utils.getHl7DateFormat().format(messageContent.getCreationDateTime()));
             // handle OBR component
             OBR obr = message.getORDER().getORDER_DETAIL().getOBR();
+            obr.getObr16_OrderingProvider(0).getFamilyName().getSurname().setValue(messageContent.getPhysician());
+
             obr.getObr20_FillerField1().setValue(messageContent.getAccessionNumber());
             obr.getPlacerField1().setValue(messageContent.getAccessionNumber());
             obr.getDiagnosticServSectID().setValue(messageContent.getModalityName());
-            obr.getPlacerField2().setValue(messageContent.getAccessionNumber());////////////ReqProcId       
+            obr.getPlacerField2().setValue(messageContent.getAccessionNumber());////////////ReqProcId
+            obr.getObr4_UniversalServiceIdentifier().getAlternateText().setValue(messageContent.getExamName());
+            obr.getObr13_RelevantClinicalInformation().setValue(messageContent.getComments());
+
             message.addNonstandardSegment("ZDS");
             Terser t = new Terser(message);
-            t.set("ZDS-1-1", HL7Utils.generateSUID());
+            t.set("ZDS-1-1", HL7Utils.generateSUID(messageContent.getAccessionNumber()));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -100,14 +100,10 @@ public class HL7Utils {
         return ack;
     }
 
-    public static String generateSUID() {
-        String reqProcID = "ADV001";
-        String studyIUID = null;
-        if (reqProcID != null) {
-            studyIUID = UIDUtils.createNameBasedUID(reqProcID.getBytes());
-            System.out.println("studyIUID " + studyIUID);
-        }
-        return studyIUID;
+    public static String generateSUID(String accessionNumber) {
+        String UID = UIDUtils.createNameBasedUID(accessionNumber.getBytes());
+        System.out.println("UID :: " + UID);
+        return UID;
     }
 
 }

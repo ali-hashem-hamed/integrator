@@ -36,6 +36,10 @@ public class Worklist  implements java.io.Serializable {
      private String worklistStatus;
      private int handled;
      private String examCompleted;
+    private String comments;
+    private String physician;
+    private String contrastAllergy;
+    private Integer patientPregnant;
 
     public Worklist() {
     }
@@ -197,9 +201,41 @@ public class Worklist  implements java.io.Serializable {
         this.examCompleted = examCompleted;
     }
 
+    @Column(name="comments")
+    public String getComments() {
+        return comments;
+    }
 
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
+    @Column(name="physician")
+    public String getPhysician() {
+        return physician;
+    }
 
+    public void setPhysician(String physician) {
+        this.physician = physician;
+    }
+
+    @Column(name="contrast_allergy")
+    public String getContrastAllergy() {
+        return contrastAllergy;
+    }
+
+    public void setContrastAllergy(String contrastAllergy) {
+        this.contrastAllergy = contrastAllergy;
+    }
+
+    @Column(name="patient_pregnant")
+    public Integer getPatientPregnant() {
+        return patientPregnant;
+    }
+
+    public void setPatientPregnant(Integer patientPregnant) {
+        this.patientPregnant = patientPregnant;
+    }
 }
 
 

@@ -35,7 +35,7 @@ public class WorklistScheduled {
 
     public static final String NEW_STATUS = "N";
     public static final String UPDATE_STATUS = "U";
-    public static final String DELETE_STATUS = "D";
+    public static final String CANCEL_STATUS = "C";
 
     @Value("${hl7.host}")
     String HL7Host;
@@ -59,6 +59,10 @@ public class WorklistScheduled {
                     worklist.getPatientBirthdate(), worklist.getPatientFullName(), worklist.getPatientNationalId(),
                     worklist.getPatientSex(), worklist.getAccessionNumber(), worklist.getExamName(), worklist.getModalityName(),
                     worklist.getWorklistStatus(), worklist.getExamCompleted());
+            messageContent.setPatientPregnant(worklist.getPatientPregnant());
+            messageContent.setComments(worklist.getComments());
+            messageContent.setContrastAllergy(worklist.getContrastAllergy());
+            messageContent.setPhysician(worklist.getPhysician());
 
             Message message = null;
 
@@ -80,18 +84,20 @@ public class WorklistScheduled {
 
                     message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.SCHEDULED_WORKLIST);
                     break;
-                case DELETE_STATUS:
+                case CANCEL_STATUS:
                     System.out.println("Delete Status");
                     message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.CANCEL_WORKLIST);
                     break;
                 default:
                     System.out.println("no match");
             }
+             if(message != null) {
+                 boolean sendHL7Message = HL7Utils.sendHL7Message(HL7Host, Integer.parseInt(HL7Port), message);
 
-            boolean sendHL7Message = HL7Utils.sendHL7Message(HL7Host, Integer.parseInt(HL7Port), message);
-            if (sendHL7Message) {
-                worklistDao.setHandled(worklist.getId(), 1);
-            }
+                 if (sendHL7Message) {
+                     worklistDao.setHandled(worklist.getId(), 1);
+                 }
+             }
         }
     }
 

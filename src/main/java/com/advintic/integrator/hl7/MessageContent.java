@@ -25,6 +25,10 @@ public class MessageContent {
      private String modalityName;
      private String worklistStatus;
      private String examCompleted;
+     private String comments;
+     private String physician;
+     private String contrastAllergy;
+     private Integer patientPregnant;
 
     public MessageContent() {
     }
@@ -130,6 +134,36 @@ public class MessageContent {
     public void setExamCompleted(String examCompleted) {
         this.examCompleted = examCompleted;
     }
-     
-     
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public String getPhysician() {
+        return physician;
+    }
+
+    public void setPhysician(String physician) {
+        this.physician = physician;
+    }
+
+    public String getContrastAllergy() {
+        return contrastAllergy;
+    }
+
+    public void setContrastAllergy(String contrastAllergy) {
+        this.contrastAllergy = contrastAllergy;
+    }
+
+    public Integer getPatientPregnant() {
+        return patientPregnant;
+    }
+
+    public void setPatientPregnant(Integer patientPregnant) {
+        this.patientPregnant = patientPregnant;
+    }
 }
