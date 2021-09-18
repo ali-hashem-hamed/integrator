@@ -1,5 +1,7 @@
 package com.advintic.integrator.hl7;
 
+import ca.uhn.hl7v2.DefaultHapiContext;
+import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.AbstractMessage;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v25.group.ORM_O01_PATIENT;
@@ -11,6 +13,7 @@ import ca.uhn.hl7v2.model.v25.segment.OBR;
 import ca.uhn.hl7v2.model.v25.segment.ORC;
 import ca.uhn.hl7v2.model.v25.segment.PID;
 import ca.uhn.hl7v2.model.v25.segment.PV1;
+import ca.uhn.hl7v2.parser.Parser;
 import ca.uhn.hl7v2.util.Terser;
 import java.util.Date;
 
@@ -33,7 +36,9 @@ public class MessageBuilder {
     public static final String CANCEL_WORKLIST = "SC(CA)";
 
     public static Message createRadiologyOrderMessage(MessageContent messageContent, String status) {
+        HapiContext context = new DefaultHapiContext();
         ORM_O01 message = new ORM_O01();
+        message.setParser(context.getPipeParser());
         try {
             // handle the MSH component
             MSH msh = message.getMSH();
@@ -63,6 +68,9 @@ public class MessageBuilder {
 
             // handle ORC component
             ORC orc = message.getORDER().getORC();
+            orc.getOrc5_OrderStatus().setValue("SC");
+            
+
             orc.getEnteredBy(0).getGivenName().setValue("EnteredByADV");
             orc.getOrderControl().setValue(status);
             orc.getOrc12_OrderingProvider(0).getFamilyName().getSurname().setValue(messageContent.getPhysician());
@@ -81,12 +89,22 @@ public class MessageBuilder {
             obr.getObr4_UniversalServiceIdentifier().getAlternateText().setValue(messageContent.getExamName());
             obr.getObr13_RelevantClinicalInformation().setValue(messageContent.getComments());
 
-            message.addNonstandardSegment("ZDS");
-            Terser t = new Terser(message);
-            t.set("ZDS-1-1", HL7Utils.generateSUID(messageContent.getAccessionNumber()));
+//            message.addNonstandardSegment("ZDS");
+//            Terser t = new Terser(message);
+//            t.set("ZDS-1-1", HL7Utils.generateSUID(messageContent.getAccessionNumber()));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+try {
+
+
+    System.out.println("Printing Encoded Message:");
+    System.out.println(message.printStructure());
+} catch (Exception e){
+    e.printStackTrace();
+}
+
 
         return message;
     }

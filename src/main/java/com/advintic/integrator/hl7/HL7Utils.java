@@ -106,4 +106,20 @@ public class HL7Utils {
         return UID;
     }
 
+
+    public static void main(String[] args){
+        MessageContent messageContent = new MessageContent();
+        messageContent.setExamName("Exam name");
+        messageContent.setCreationDateTime(new Date());
+        messageContent.setModalityName("CT");
+        messageContent.setPatientId("1");
+        messageContent.setPatientFullName("Mohamed");
+        messageContent.setAccessionNumber("5551");
+        messageContent.setPatientBirthdate(new Date());
+        messageContent.setPatientPregnant(1);
+        HL7Utils.sendHL7Message("stage.advintic.com" , 2575 ,
+                MessageBuilder.createRadiologyOrderMessage(messageContent , MessageBuilder.NEW_WORKLIST));
+
+    }
+
 }
