@@ -2,6 +2,8 @@ package com.advintic.integrator.db.model;
 // Generated Dec 17, 2019 10:15:40 PM by Hibernate Tools 4.3.1
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;

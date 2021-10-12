@@ -1,31 +1,11 @@
 
-import com.advintic.integrator.hl7.MessageContent;
-import com.advintic.integrator.hl7.MessageBuilder;
-import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
-import ca.uhn.hl7v2.HapiContext;
-import ca.uhn.hl7v2.app.Connection;
-import ca.uhn.hl7v2.app.ConnectionHub;
-import ca.uhn.hl7v2.app.Initiator;
 import ca.uhn.hl7v2.llp.LLPException;
-import ca.uhn.hl7v2.llp.MinLowerLayerProtocol;
-import ca.uhn.hl7v2.model.AbstractMessage;
-import ca.uhn.hl7v2.model.Message;
-import ca.uhn.hl7v2.model.v25.message.ORM_O01;
-import ca.uhn.hl7v2.parser.Parser;
-import ca.uhn.hl7v2.parser.PipeParser;
-import com.advintic.integrator.db.scheduled.WorklistScheduled;
-import com.advintic.integrator.hl7.HL7Utils;
+import com.advintic.integrator.scheduled.WorklistScheduled;
 import com.os.api.dicom.DicomUtility;
-import static com.os.api.dicom.DicomUtility.readDicomFile;
 import com.pixelmed.dicom.DicomException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import javafx.scene.control.Tab;
-import org.dcm4che3.data.Attributes;
-import org.dcm4che3.data.Sequence;
-import org.dcm4che3.data.Tag;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

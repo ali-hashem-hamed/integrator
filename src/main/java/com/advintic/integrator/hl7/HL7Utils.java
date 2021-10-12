@@ -26,8 +26,11 @@ import java.text.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dcm4che3.data.Tag;
 import org.dcm4che3.util.UIDUtils;
+import sun.awt.X11.XSystemTrayPeer;
 
 public class HL7Utils {
 
@@ -117,8 +120,16 @@ public class HL7Utils {
         messageContent.setAccessionNumber("5551");
         messageContent.setPatientBirthdate(new Date());
         messageContent.setPatientPregnant(1);
+try {
+            ObjectMapper mapper = new ObjectMapper();
+            String str = mapper.writeValueAsString(messageContent);
+            System.out.println(str);
+        } catch (Exception e){
+
+    e.printStackTrace();
+}
         HL7Utils.sendHL7Message("stage.advintic.com" , 2575 ,
-                MessageBuilder.createRadiologyOrderMessage(messageContent , MessageBuilder.NEW_WORKLIST));
+                MessageBuilder.createRadiologyOrderMessage(messageContent));
 
     }
 

@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.advintic.integrator.db.scheduled;
+package com.advintic.integrator.scheduled;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.llp.LLPException;
-import ca.uhn.hl7v2.model.Message;
 
 import com.advintic.integrator.db.dao.WorklistDao;
 import com.advintic.integrator.db.model.Worklist;
@@ -33,14 +32,15 @@ import org.springframework.stereotype.Component;
 
 public class WorklistScheduled {
 
-    public static final String NEW_STATUS = "N";
-    public static final String UPDATE_STATUS = "U";
-    public static final String CANCEL_STATUS = "C";
+
 
     @Value("${hl7.host}")
     String HL7Host;
     @Value("${hl7.port}")
     String HL7Port;
+
+    @Value("${integration.lisenter.db.activate}")
+    boolean dbTabelListenerActivated;
 
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
     @Autowired
@@ -48,6 +48,7 @@ public class WorklistScheduled {
 
     @Scheduled(fixedRate = 1000 * 60)
     public void searchForUnhandledWorklist() throws HL7Exception, LLPException, IOException {
+        if(!dbTabelListenerActivated) return;
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println("searchForUnhandledWorklist Started " + dateTimeFormatter.format(LocalDateTime.now()));
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -58,45 +59,18 @@ public class WorklistScheduled {
             MessageContent messageContent = new MessageContent(worklist.getCreationDateTime(), worklist.getPatientId(),
                     worklist.getPatientBirthdate(), worklist.getPatientFullName(), worklist.getPatientNationalId(),
                     worklist.getPatientSex(), worklist.getAccessionNumber(), worklist.getExamName(), worklist.getModalityName(),
-                    worklist.getWorklistStatus(), worklist.getExamCompleted());
+                    worklist.getWorklistStatus());
             messageContent.setPatientPregnant(worklist.getPatientPregnant());
             messageContent.setComments(worklist.getComments());
             messageContent.setContrastAllergy(worklist.getContrastAllergy());
             messageContent.setPhysician(worklist.getPhysician());
+            messageContent.setAction(worklist.getWorklistStatus());
 
-            Message message = null;
 
-            switch (worklist.getWorklistStatus().toUpperCase()) {
-                case NEW_STATUS:
-                    if (worklist.getExamCompleted().equalsIgnoreCase("1")) {
-                        System.out.println("Exam Completed Status");
-                        message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.COMPLETED_WORKLIST);
-                    } else {
-                        System.out.println("New Status");
-                        message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.SCHEDULED_WORKLIST);
-                    }
-                    break;
-                case UPDATE_STATUS:
-                    System.out.println("Update Status");
 
-                    message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.CANCEL_WORKLIST);
-                    HL7Utils.sendHL7Message(HL7Host, Integer.parseInt(HL7Port), message);
-
-                    message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.SCHEDULED_WORKLIST);
-                    break;
-                case CANCEL_STATUS:
-                    System.out.println("Delete Status");
-                    message = MessageBuilder.createRadiologyOrderMessage(messageContent, MessageBuilder.CANCEL_WORKLIST);
-                    break;
-                default:
-                    System.out.println("no match");
-            }
-             if(message != null) {
-                 boolean sendHL7Message = HL7Utils.sendHL7Message(HL7Host, Integer.parseInt(HL7Port), message);
-
-                 if (sendHL7Message) {
+                 if (HL7Utils.sendHL7Message(HL7Host, Integer.parseInt(HL7Port), MessageBuilder.createRadiologyOrderMessage(messageContent))) {
                      worklistDao.setHandled(worklist.getId(), 1);
-                 }
+
              }
         }
     }

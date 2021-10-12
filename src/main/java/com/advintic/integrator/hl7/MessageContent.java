@@ -1,6 +1,9 @@
 package com.advintic.integrator.hl7;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /*
@@ -13,9 +16,11 @@ import java.util.Date;
  *
  * @author Mahmoud
  */
-public class MessageContent {
+public class MessageContent implements Serializable {
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
      private Date creationDateTime;
      private String patientId;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
      private Date patientBirthdate;
      private String patientFullName;
      private String patientNationalId;
@@ -24,16 +29,18 @@ public class MessageContent {
      private String examName;
      private String modalityName;
      private String worklistStatus;
-     private String examCompleted;
      private String comments;
      private String physician;
      private String contrastAllergy;
      private Integer patientPregnant;
+     private String action;
 
     public MessageContent() {
     }
 
-    public MessageContent(Date creationDateTime, String patientId, Date patientBirthdate, String patientFullName, String patientNationalId, String patientSex, String accessionNumber, String examName, String modalityName, String worklistStatus, String examCompleted) {
+    public MessageContent(Date creationDateTime, String patientId, Date patientBirthdate, String patientFullName,
+                          String patientNationalId, String patientSex, String accessionNumber, String examName, String modalityName,
+                          String worklistStatus) {
         this.creationDateTime = creationDateTime;
         this.patientId = patientId;
         this.patientBirthdate = patientBirthdate;
@@ -44,7 +51,7 @@ public class MessageContent {
         this.examName = examName;
         this.modalityName = modalityName;
         this.worklistStatus = worklistStatus;
-        this.examCompleted = examCompleted;
+
     }
 
     public Date getCreationDateTime() {
@@ -127,13 +134,7 @@ public class MessageContent {
         this.worklistStatus = worklistStatus;
     }
 
-    public String getExamCompleted() {
-        return examCompleted;
-    }
 
-    public void setExamCompleted(String examCompleted) {
-        this.examCompleted = examCompleted;
-    }
 
     public String getComments() {
         return comments;
@@ -165,5 +166,13 @@ public class MessageContent {
 
     public void setPatientPregnant(Integer patientPregnant) {
         this.patientPregnant = patientPregnant;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 }
