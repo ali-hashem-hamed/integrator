@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
 
 public class MppsSCP {
 
-    static WorklistDao worklistDao;
+    static MPPSHandler handler;
     private static ResourceBundle rb
             = ResourceBundle.getBundle("org.dcm4che3.tool.mppsscp.messages");
 
@@ -102,8 +102,8 @@ public class MppsSCP {
         this.mppsNSetIOD = mppsNSetIOD;
     }
 
-    public static void main(String[] args, WorklistDao worklistDao) {
-        MppsSCP.worklistDao = worklistDao;
+    public static void main(String[] args, MPPSHandler handler) {
+        MppsSCP.handler = handler;
         try {
             CommandLine cl = parseComandLine(args);
             MppsSCP main = new MppsSCP();
@@ -314,6 +314,7 @@ public class MppsSCP {
             System.out.println("###################### AffectedSOPInstanceUID " + affectedSOPInstanceUID);
             System.out.println("###################### AccessionNumber " + accessionNumber);
             System.out.println("###################### PatientID " + patientID);
+            handler.handleInProgress(accessionNumber);
 
         } else if ("COMPLETED".equals(performedProcedureStepStatus)) {
 
@@ -323,11 +324,7 @@ public class MppsSCP {
             File mppsFile = new File(storageDir, requestedSOPInstanceUID);
             String accessionNumber = getAccessionNumber(mppsFile);
 
-            if (accessionNumber != null) {
-                Worklist findByAccessionNumber = worklistDao.findByAccessionNumber(accessionNumber);
-                worklistDao.setExamCompleted(findByAccessionNumber.getId());
-                worklistDao.setHandled(findByAccessionNumber.getId(), 0);
-            }
+            handler.handleCompleted(accessionNumber);
         }
     }
 

@@ -112,14 +112,15 @@ public class HL7Utils {
 
     public static void main(String[] args){
         MessageContent messageContent = new MessageContent();
-        messageContent.setExamName("Exam name");
+        messageContent.setExamName("Exam name11111111111111111");
         messageContent.setCreationDateTime(new Date());
         messageContent.setModalityName("CT");
-        messageContent.setPatientId("1");
-        messageContent.setPatientFullName("Mohamed");
-        messageContent.setAccessionNumber("5551");
+        messageContent.setPatientId("11111111111111");
+        messageContent.setPatientFullName("Mohamed Shehata");
+        messageContent.setAccessionNumber("55511111111111");
         messageContent.setPatientBirthdate(new Date());
         messageContent.setPatientPregnant(1);
+        messageContent.setWorklistStatus("RESERVED");
 try {
             ObjectMapper mapper = new ObjectMapper();
             String str = mapper.writeValueAsString(messageContent);

@@ -29,8 +29,8 @@
                 <updatePolicy>always</updatePolicy>
             </releases>
             <id>central</id>
-            <name>libs-release</name>
-            <url>http://dev.advintic.com:8081/artifactory/libs-release</url>
+            <name>carev-full-repo-virtual</name>
+            <url>http://stage.advintic.com:8081/artifactory/carev-dummy-repo-virtual</url>
         </repository>
         
     </repositories>
@@ -168,6 +168,13 @@
             <artifactId>dicom-api</artifactId>
             <version>1.2-stable</version>
             <type>jar</type>
+        </dependency>
+        
+        
+          <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.12</version>
         </dependency>
     </dependencies>
   

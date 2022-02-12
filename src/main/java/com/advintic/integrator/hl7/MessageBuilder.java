@@ -67,6 +67,7 @@ public class MessageBuilder {
             // handle the patient PID component
             ORM_O01_PATIENT patient = message.getPATIENT();
             PID pid = patient.getPID();
+            pid.getAlternatePatientIDPID(0).getIDNumber().setValue("ALTERID");
             pid.getPatientIdentifierList(0).getIDNumber().setValue(messageContent.getPatientId());
            // pid.getPatientName(0).getFamilyName().getSurname().setValue(messageContent.getPatientFullName());//PatientFNAME
              String[] nameComps = messageContent.getPatientFullName().split(" ");
@@ -212,5 +213,25 @@ try {
             e.printStackTrace();
         }
         return message;
+    }
+
+
+    public static void main(String[] args){
+        String[] nameComps = "Mohamed Shehata AbdelRahman".split(" ");
+        String familyName = "" ;
+        String givenName =nameComps[0];
+        for (int i=0; i<nameComps.length ; i++) {
+            if (i!=0 && i==(nameComps.length - 1)) {
+                familyName = nameComps[i];
+                break;
+            }
+            if(i>0) {
+                givenName += " " + nameComps[i];
+            }
+
+        }
+        System.out.println("NAME --------------------------------------------------");
+        System.out.println(familyName);
+        System.out.println(givenName);
     }
 }

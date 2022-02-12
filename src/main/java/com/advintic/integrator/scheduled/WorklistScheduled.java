@@ -13,6 +13,7 @@ import com.advintic.integrator.db.model.Worklist;
 import com.advintic.integrator.hl7.HL7Utils;
 import com.advintic.integrator.hl7.MessageContent;
 import com.advintic.integrator.hl7.MessageBuilder;
+import com.advintic.integrator.mpps.MPPSHandler;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -45,9 +46,13 @@ public class WorklistScheduled {
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
     @Autowired
     WorklistDao worklistDao;
+    
+    @Autowired
+    MPPSHandler handler;
 
     @Scheduled(fixedRate = 1000 * 60)
     public void searchForUnhandledWorklist() throws HL7Exception, LLPException, IOException {
+        
         if(!dbTabelListenerActivated) return;
         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println("searchForUnhandledWorklist Started " + dateTimeFormatter.format(LocalDateTime.now()));

@@ -5,7 +5,7 @@
  */
 package com.advintic.integrator.mpps;
 
-import com.advintic.integrator.db.dao.WorklistDao;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -27,12 +27,12 @@ public class MPPSListener {
     String MPPSPORT;
     
     @Autowired
-    WorklistDao worklistDao;
+    MPPSHandler handler;
 
     @EventListener(ApplicationReadyEvent.class)
     public void startMPPSListener() {
         String[] args2 = {"-b", MPPSAET + ":" + MPPSPORT, "-no-validate", "--directory", "MPPS"};
-        MppsSCP.main(args2, worklistDao);
+        MppsSCP.main(args2, handler);
     }
 
 }

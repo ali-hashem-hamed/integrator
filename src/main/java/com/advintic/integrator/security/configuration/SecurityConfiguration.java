@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/webjars/**");
         web.ignoring().antMatchers("/static/**","/js/**","/css/**" , "/img/**", "/fonts/**", "/libs/**" , 
-                "/callback" ,"/forget_password" , "/hl7/**");
+                "/callback" ,"/forget_password" , "/hl7/**", "/view/**");
     }
     
      @Override
