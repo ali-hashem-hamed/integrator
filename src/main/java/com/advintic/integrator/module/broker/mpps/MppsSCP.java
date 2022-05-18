@@ -1,11 +1,9 @@
-package com.advintic.integrator.mpps;
+package com.advintic.integrator.module.broker.mpps;
 
 /**
  *
  * @author Mahmoud
  */
-import com.advintic.integrator.db.dao.WorklistDao;
-import com.advintic.integrator.db.model.Worklist;
 import com.os.api.dicom.DicomUtility;
 import static com.os.api.dicom.DicomUtility.readDicomFile;
 import java.io.File;

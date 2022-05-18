@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.advintic.integrator.scheduled;
+package com.advintic.integrator.module.yanbu;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.llp.LLPException;
 
-import com.advintic.integrator.db.dao.WorklistDao;
-import com.advintic.integrator.db.model.Worklist;
-import com.advintic.integrator.hl7.HL7Utils;
-import com.advintic.integrator.hl7.MessageContent;
-import com.advintic.integrator.hl7.MessageBuilder;
-import com.advintic.integrator.mpps.MPPSHandler;
+import com.advintic.integrator.module.yanbu.WorklistDao;
+import com.advintic.integrator.module.yanbu.Worklist;
+import com.advintic.integrator.module.broker.hl7.HL7Utils;
+import com.advintic.integrator.module.broker.hl7.MessageContent;
+import com.advintic.integrator.module.broker.hl7.MessageBuilder;
+import com.advintic.integrator.module.broker.mpps.MPPSHandler;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,7 +40,7 @@ public class WorklistScheduled {
     @Value("${hl7.port}")
     String HL7Port;
 
-    @Value("${integration.lisenter.db.activate}")
+    @Value("${yanbu.lisenter.db.activate}")
     boolean dbTabelListenerActivated;
 
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");

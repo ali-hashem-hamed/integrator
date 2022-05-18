@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.advintic.integrator.db.dao;
+package com.advintic.integrator.module.yanbu;
 
 /**
  *
  * @author Mahmoud
  */
-import com.advintic.integrator.db.model.Worklist;
+import com.advintic.integrator.module.yanbu.Worklist;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import javax.transaction.Transactional;

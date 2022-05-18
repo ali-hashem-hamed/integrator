@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.advintic.integrator.mpps;
+package com.advintic.integrator.module.broker.mpps;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

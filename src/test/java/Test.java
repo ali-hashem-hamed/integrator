@@ -1,7 +1,6 @@
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.llp.LLPException;
-import com.advintic.integrator.scheduled.WorklistScheduled;
 import com.os.api.dicom.DicomUtility;
 import com.pixelmed.dicom.DicomException;
 import java.io.File;

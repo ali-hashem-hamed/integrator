@@ -1,4 +1,4 @@
-package com.advintic.integrator.hl7;
+package com.advintic.integrator.module.broker.hl7;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;

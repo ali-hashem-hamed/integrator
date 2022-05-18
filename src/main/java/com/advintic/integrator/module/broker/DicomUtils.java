@@ -1,4 +1,4 @@
-package com.advintic.integrator.util;
+package com.advintic.integrator.module.broker;
 
 import com.os.api.dicom.DicomQuery;
 import com.os.api.dicom.model.DicomQueryResult;

@@ -1,4 +1,4 @@
-package com.advintic.integrator.hl7;
+package com.advintic.integrator.module.broker.hl7;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,24 +13,17 @@ import ca.uhn.hl7v2.*;
 import ca.uhn.hl7v2.app.Connection;
 import ca.uhn.hl7v2.app.ConnectionHub;
 import ca.uhn.hl7v2.app.Initiator;
-import ca.uhn.hl7v2.llp.LLPException;
 import ca.uhn.hl7v2.llp.MinLowerLayerProtocol;
 import ca.uhn.hl7v2.model.*;
 import ca.uhn.hl7v2.model.v25.message.*;
 import ca.uhn.hl7v2.model.v25.segment.*;
 import ca.uhn.hl7v2.parser.PipeParser;
-import ca.uhn.hl7v2.util.idgenerator.UUIDGenerator;
-import java.io.IOException;
 
 import java.text.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.dcm4che3.data.Tag;
 import org.dcm4che3.util.UIDUtils;
-import sun.awt.X11.XSystemTrayPeer;
 
 public class HL7Utils {
 

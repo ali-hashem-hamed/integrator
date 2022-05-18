@@ -1,4 +1,4 @@
-package com.advintic.integrator.hl7;
+package com.advintic.integrator.module.broker.hl7;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HapiContext;
