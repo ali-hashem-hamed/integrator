@@ -2,3 +2,7 @@
 /target/
 /MPPS
 /.idea/
+/nb-configuration.xml
+/server.log
+/server.log.1
+/server.log.2

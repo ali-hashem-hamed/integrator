@@ -33,7 +33,6 @@ public class RequestHandler {
         ResponseEntity<String> respEntity = null;
         try {
             respEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-x
             if (respEntity.getStatusCode() == HttpStatus.OK) {
 
 //    ObjectMapper mapper = new ObjectMapper();

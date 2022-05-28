@@ -43,10 +43,10 @@ public class ClaimScheduled {
     @Value("${carev.integration.claim.url}")
     String carevIntegrationUrl;
 
-    @Value("${carev.integration.key}")
+    @Value("${carev.integration.claim.key}")
     String carevIntegrationKey;
 
-    @Value("${carev.integration.secret}")
+    @Value("${carev.integration.claim.secret}")
     String carevIntegrationSecret;
 
     @Autowired

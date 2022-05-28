@@ -2,6 +2,8 @@ package com.advintic.integrator.module.irc;
 // Generated Dec 17, 2019 10:15:40 PM by Hibernate Tools 4.3.1
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 
 /**
@@ -15,6 +17,7 @@ public class Claim implements java.io.Serializable {
     @Id
     private Long rowLine;
     private String invoice_Number;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private java.sql.Timestamp invoice_Date;
     private String ins_CardNo;
     private String insurance_Co;
@@ -23,11 +26,15 @@ public class Claim implements java.io.Serializable {
     private String patient_Id;
     private Long visit_Id;
     private String patient_Name;
+
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private java.sql.Timestamp pat_Dob;
     private String gender;
     private String emirated_Id;
     private String doc_Name;
     private String doc_LicenseNo;
+
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private java.sql.Timestamp test_Date;
     private String test_Name;
     private String test_Code;

@@ -2,6 +2,7 @@ package com.advintic.integrator.module.irc;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -25,12 +26,13 @@ import javax.sql.DataSource;
 )
 public class IRCDataSourceConfig {
 
+    @Value("${irc.lisenter.db.activate}")
+    boolean dbTabelListenerActivated;
+
     @Bean(name="ircDataSource")
     @Primary
     @ConfigurationProperties(prefix="spring.datasource.irc")
     public DataSource ircDataSource() {
-
-
 
         return DataSourceBuilder.create().build();
     }

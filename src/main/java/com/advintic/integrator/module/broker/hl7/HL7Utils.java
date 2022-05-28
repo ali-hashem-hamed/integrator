@@ -113,7 +113,7 @@ public class HL7Utils {
         messageContent.setAccessionNumber("55511111111111");
         messageContent.setPatientBirthdate(new Date());
         messageContent.setPatientPregnant(1);
-        messageContent.setWorklistStatus("RESERVED");
+        messageContent.setWorklistStatus("SCHEDULED");
 try {
             ObjectMapper mapper = new ObjectMapper();
             String str = mapper.writeValueAsString(messageContent);
@@ -122,7 +122,7 @@ try {
 
     e.printStackTrace();
 }
-        HL7Utils.sendHL7Message("stage.advintic.com" , 2575 ,
+        HL7Utils.sendHL7Message("172.27.76.204" , 2575 ,
                 MessageBuilder.createRadiologyOrderMessage(messageContent));
 
     }

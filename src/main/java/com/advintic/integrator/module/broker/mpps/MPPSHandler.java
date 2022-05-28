@@ -32,10 +32,10 @@ public class MPPSHandler {
     @Value("${carev.integration.mpps.url}")
     String carevIntegrationUrl;
 
-    @Value("${carev.integration.key}")
+    @Value("${carev.integration.mpps.key}")
     String carevIntegrationKey;
 
-    @Value("${carev.integration.secret}")
+    @Value("${carev.integration.mpps.secret}")
     String carevIntegrationSecret;
 
 
