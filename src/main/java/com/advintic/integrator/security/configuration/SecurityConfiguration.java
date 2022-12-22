@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/webjars/**");
         web.ignoring().antMatchers("/static/**","/js/**","/css/**" , "/img/**", "/fonts/**", "/libs/**" , 
-                "/callback" ,"/forget_password" , "/hl7/**", "/view/**" , "/calim/**");
+                "/callback" ,"/forget_password" , "/hl7/**", "/view/**" , "/calim/**","/viewer/reportStatus/**");
     }
     
      @Override
@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	          .antMatchers("/login", "/oauth/authorize" , "/" )
 	          .and()
 	          .authorizeRequests()
-                  .antMatchers("/forget_password", "/login**","/callback/", "/webjars/**", "/error**")
+                  .antMatchers("/forget_password", "/login**","/callback/", "/webjars/**", "/error**","/viewer/reportStatus**")
                   .permitAll()
 	          .anyRequest()
 	          .authenticated();

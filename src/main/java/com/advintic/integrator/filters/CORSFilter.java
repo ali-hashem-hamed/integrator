@@ -6,7 +6,6 @@
 package com.advintic.integrator.filters;
 
 /**
- *
  * @author Mahmoud
  */
 
@@ -33,11 +32,11 @@ public class CORSFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         String originHeader = request.getHeader("Origin");
         response.setHeader("Access-Control-Allow-Origin", originHeader);
-        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Credentials", "false");
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Key, Authorization");
-
+        System.out.println("originHeader = " + originHeader);
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {

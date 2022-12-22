@@ -4,11 +4,13 @@
  */
 package com.advintic.integrator.module.broker.mpps;
 
+import java.io.Serializable;
+
 /**
  *
  * @author mohamed
  */
-public class IntegrationWrapper {
+public class IntegrationWrapper implements Serializable {
     
     public static final String COMPLETED = "COMPLETED";
     public static final String IN_PROGRESS = "INPROGRESS";
@@ -16,6 +18,14 @@ public class IntegrationWrapper {
     
    private String examination_id;
    private String  status;
+
+    public IntegrationWrapper(String examination_id, String status) {
+        this.examination_id = examination_id;
+        this.status = status;
+    }
+
+    public IntegrationWrapper() {
+    }
 
     public String getExamination_id() {
         return examination_id;

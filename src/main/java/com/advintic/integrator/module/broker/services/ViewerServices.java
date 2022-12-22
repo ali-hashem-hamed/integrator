@@ -17,7 +17,6 @@ import java.util.HashMap;
 @RequestMapping("/view")
 public class ViewerServices {
 
-
     @Value("${pacs.host}")
     String PACSHost;
     @Value("${pacs.port}")

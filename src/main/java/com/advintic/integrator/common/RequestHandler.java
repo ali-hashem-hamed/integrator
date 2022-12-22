@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class RequestHandler {
-    private RestTemplate createRestTemplate() {
+    public RestTemplate createRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
         return restTemplate;
@@ -27,7 +27,6 @@ public class RequestHandler {
         }
 
         RestTemplate restTemplate = createRestTemplate();
-
         HttpEntity entity = new HttpEntity<>(w, headers);
 
         ResponseEntity<String> respEntity = null;
