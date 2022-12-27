@@ -61,19 +61,13 @@ public class Viewer extends BasicServices {
             RestTemplate restTemplate = requestHandler.createRestTemplate();
             HttpEntity entity = new HttpEntity<>(reportWrapper, createRequestHeader());
             ResponseEntity<Map> rep = restTemplate.exchange(carevIntegrationUrl, HttpMethod.POST, entity, Map.class);
-            System.out.println("respme about updare report  = " + rep.getBody());
-
-            if(rep.getBody().get("exc_type").equals("DoesNotExistError")){
+            if (rep.getStatusCode() == HttpStatus.OK) return new ResponseEntity<>(reportWrapper, HttpStatus.ACCEPTED);
+            else if (rep.getStatusCode() == HttpStatus.NOT_FOUND) {
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-            }
-            else if (rep.getStatusCode() == HttpStatus.OK)
-                return new ResponseEntity<>(reportWrapper, HttpStatus.ACCEPTED);
-            else if(rep.getStatusCode() == HttpStatus.NOT_FOUND){
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-            }
-            else return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            } else return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            System.out.println("exception in catch PUT = " + e.getMessage());
+            System.out.println("Error in update Report status " + e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
 
         }
