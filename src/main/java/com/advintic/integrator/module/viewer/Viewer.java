@@ -2,6 +2,7 @@ package com.advintic.integrator.module.viewer;
 
 import com.advintic.integrator.common.RequestHandler;
 import com.advintic.integrator.module.broker.mpps.IntegrationWrapper;
+import com.os.api.dicom.model.Study;
 import com.os.api.oauth2.client.BasicServices;
 import com.os.api.oauth2.client.TokenData;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -18,11 +19,12 @@ import java.util.Map;
 
 @PropertySource("file:application.properties")
 @RestController
-@RequestMapping("/viewer/reportStatus")
+@RequestMapping("/viewer")
 public class Viewer extends BasicServices {
     @Value("${carev.integration.mpps.url}")
     String carevIntegrationUrl;
-
+    @Value("${carev.integration.mpps.getreportData.url}")
+    String getReprtDataURl;
 
     @Value("${carev.integration.mpps.get_status.url}")
     String getStatusURl;
@@ -38,7 +40,7 @@ public class Viewer extends BasicServices {
         this.requestHandler = requestHandler;
     }
 
-    @GetMapping()
+    @GetMapping("/reportStatus")
     public ResponseEntity<IntegrationWrapper> RetrieveStatus(@RequestParam("examination_id") String studyId) {
         try {
             RestTemplate restTemplate = requestHandler.createRestTemplate();
@@ -54,8 +56,7 @@ public class Viewer extends BasicServices {
 
     }
 
-
-    @PutMapping()
+    @PutMapping("/reportStatus")
     public @ResponseBody ResponseEntity<IntegrationWrapper> updateReport(@RequestBody IntegrationWrapper reportWrapper) {
         try {
             RestTemplate restTemplate = requestHandler.createRestTemplate();
@@ -75,6 +76,23 @@ public class Viewer extends BasicServices {
 
     }
 
+    @GetMapping("/reportData")
+    private @ResponseBody ResponseEntity<StudyWrapper>retrieveReportData(@RequestParam("examination_id")String exam_id){
+        try {
+//            ?exam_id=HLC-CPR-2023-00029
+            RestTemplate restTemplate = requestHandler.createRestTemplate();
+            String url = getReprtDataURl + "/?exam_id=" + exam_id;
+            HttpEntity<String> entity = new HttpEntity<>(createRequestHeader());
+            ResponseEntity<Map> rep = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+            final ObjectMapper mapper = new ObjectMapper();
+            final StudyWrapper studyWrapper = mapper.convertValue(rep.getBody().get("message"), StudyWrapper.class);
+            return new ResponseEntity<>(studyWrapper,rep.getStatusCode());
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Error in retrieving Report Data = " + e.getMessage());
+        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+    }
     private HttpHeaders createRequestHeader() {
         HttpHeaders headers = new HttpHeaders();
         System.out.println("Authorization" + "token " + carevIntegrationKey + ":" + carevIntegrationSecret);
